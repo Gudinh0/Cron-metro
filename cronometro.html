@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Cronômetro</title>
+	<style>
+		div#pagina{
+			height: 100%;
+			width: 100%;
+			background-color: lightblue;
+			position: absolute;
+
+			
+		}
+		div#main {
+			top: 250px;
+			position: relative;
+			display: flex;
+			
+			justify-content: center;
+			align-items: center;	
+		}
+
+		span{
+			font-size: 40px;
+			
+		}
+
+		nav{
+			position: absolute;
+			padding-top:100px;
+		}
+
+		input#botaoZerar{
+			
+		}
+	</style>
+</head>
+<body>
+	<div id="pagina">
+		<div id="main">
+			<span id="tela"> minha tela
+				
+			</span>
+			<br>
+			<nav>
+			<input type="button" id="botao" value="Play" onclick="playPause()">
+			<input type="button" id="botaoZerar" value="Zerar Cronômetro" onclick="zerar()" >
+			</nav>
+		</div>
+
+
+	</div>
+	<script type="text/javascript">
+		var relogio = document.getElementById('tela')
+		
+		var mseg = 0, seg = 0, min = 0, horas = 0, dias = 0
+		var tempo = (dias +' dia(s), '+horas + ':'+min+':'+seg+':'+mseg)
+		relogio.textContent = tempo
+		var play = false
+
+		function playPause(){
+			if (play){
+				play = false
+				document.getElementById('botaoZerar').disabled = false
+				document.getElementById('botao').value = 'Play'
+			}else{play = true;
+				document.getElementById('botaoZerar').disabled = true
+				document.getElementById('botao').value = 'Stop'
+
+			}
+		}
+
+		function rodarTempo(){
+
+			if(play){
+				mseg++
+				if (mseg==100) {
+					seg++
+					mseg = 0
+				}
+				
+				if(seg == 60){
+					min++
+					seg = 0
+				}
+				if (min == 60){
+					horas++
+					min = 0
+				}
+				if (horas == 24){
+					dias++
+					horas = 0
+				}
+				tempo = (dias +' dia(s), '+horas + ':'+min+':'+seg+':'+mseg)
+				relogio.textContent = tempo
+
+		}
+		}
+
+		function zerar(){
+			mseg = 0;
+			seg = 0;
+			min = 0; 
+			horas = 0; 
+			dias = 0;
+			tempo = (dias +' dia(s), '+horas + ':'+min+':'+seg+':'+mseg)
+			relogio.textContent = tempo
+		}
+
+
+
+		setInterval(rodarTempo, 10) ;
+
+
+	</script>
+</body>
+</html>
