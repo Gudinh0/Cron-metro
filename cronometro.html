@@ -4,36 +4,48 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Cronômetro</title>
+	<link href="http://fonts.cdnfonts.com/css/ds-digital" rel="stylesheet">
 	<style>
 		div#pagina{
 			height: 100%;
 			width: 100%;
-			background-color: lightblue;
+			
 			position: absolute;
 
 			
 		}
+
+		@import url('http://fonts.cdnfonts.com/css/ds-digital');
+
 		div#main {
 			top: 250px;
 			position: relative;
 			display: flex;
+			left: 280px;
 			
-			justify-content: center;
-			align-items: center;	
+				
 		}
 
 		span{
-			font-size: 40px;
+			font-size: 100px;
+			font-family: 'DS-Digital', sans-serif;
 			
 		}
 
 		nav{
 			position: absolute;
-			padding-top:100px;
+			padding-top:200px;
+			padding-left: 200px;
+			
+
+
 		}
 
-		input#botaoZerar{
-			
+		.botao{
+			width: 200px;
+			height: 80px;
+			font-size: 20px;
+			font-family: fantasy;
 		}
 	</style>
 </head>
@@ -45,8 +57,8 @@
 			</span>
 			<br>
 			<nav>
-			<input type="button" id="botao" value="Play" onclick="playPause()">
-			<input type="button" id="botaoZerar" value="Zerar Cronômetro" onclick="zerar()" >
+			<input class="botao" type="button" id="botao" value="Play" onclick="playPause()">
+			<input class="botao"  type="button" id="botaoZerar" value="Zerar Cronômetro" onclick="zerar()" >
 			</nav>
 		</div>
 
@@ -56,9 +68,30 @@
 		var relogio = document.getElementById('tela')
 		
 		var mseg = 0, seg = 0, min = 0, horas = 0, dias = 0
-		var tempo = (dias +' dia(s), '+horas + ':'+min+':'+seg+':'+mseg)
+		
+		
+		var tempo = (dias +' dia(s), '+ strNum(horas) + ':'+ strNum(min) +':'+ strNum(seg)+':'+strNum(mseg))
 		relogio.textContent = tempo
 		var play = false
+
+
+		function zerar(){
+			mseg = 0;
+			seg = 0;
+			min = 0; 
+			horas = 0; 
+			dias = 0;
+			tempo = (dias +' dia(s), '+ strNum(horas) + ':'+ strNum(min) +':'+ strNum(seg)+':'+strNum(mseg))
+			relogio.textContent = tempo
+		}
+
+		function strNum(num){
+			if (num <10) {
+					return "0"+num.toString()
+			}else {
+				return num
+			}
+		}
 
 		function playPause(){
 			if (play){
@@ -71,8 +104,10 @@
 
 			}
 		}
+		
 
 		function rodarTempo(){
+			
 
 			if(play){
 				mseg++
@@ -93,21 +128,14 @@
 					dias++
 					horas = 0
 				}
-				tempo = (dias +' dia(s), '+horas + ':'+min+':'+seg+':'+mseg)
+
+
+				tempo = (dias +' dia(s), '+ strNum(horas) + ':'+ strNum(min) +':'+ strNum(seg)+':'+strNum(mseg))
 				relogio.textContent = tempo
+			}
+		}
 
-		}
-		}
-
-		function zerar(){
-			mseg = 0;
-			seg = 0;
-			min = 0; 
-			horas = 0; 
-			dias = 0;
-			tempo = (dias +' dia(s), '+horas + ':'+min+':'+seg+':'+mseg)
-			relogio.textContent = tempo
-		}
+		
 
 
 
