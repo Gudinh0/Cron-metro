@@ -1,147 +1,168 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Cronômetro</title>
-	<link href="http://fonts.cdnfonts.com/css/ds-digital" rel="stylesheet">
-	<style>
-		div#pagina{
-			height: 100%;
-			width: 100%;
-			
-			position: absolute;
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cronômetro</title>
+    <link href="http://fonts.cdnfonts.com/css/ds-digital" rel="stylesheet" />
+    <style>
+      div#pagina {
+        height: 100%;
+        width: 100%;
 
-			
-		}
+        position: absolute;
+      }
 
-		@import url('http://fonts.cdnfonts.com/css/ds-digital');
+      @import url('http://fonts.cdnfonts.com/css/ds-digital');
 
-		div#main {
-			top: 250px;
-			position: relative;
-			display: flex;
-			left: 280px;
-			
-				
-		}
+      div#main {
+        top: 250px;
+        position: relative;
+        display: flex;
+        left: 280px;
+      }
 
-		span{
-			font-size: 100px;
-			font-family: 'DS-Digital', sans-serif;
-			
-		}
+      span {
+        font-size: 100px;
+        font-family: 'DS-Digital', sans-serif;
+      }
 
-		nav{
-			position: absolute;
-			padding-top:200px;
-			padding-left: 200px;
-			
+      nav {
+        position: absolute;
+        padding-top: 200px;
+        padding-left: 200px;
+      }
 
+      .botao {
+        width: 200px;
+        height: 80px;
+        font-size: 20px;
+        font-family: fantasy;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div id="pagina">
+        <div id="main">
+          <span id="tela"> minha tela </span>
+          <br />
+          <nav>
+            <input
+              class="botao"
+              type="button"
+              id="botao"
+              value="Play"
+              onclick="playPause()"
+            />
+            <input
+              class="botao"
+              type="button"
+              id="botaoZerar"
+              value="Zerar Cronômetro"
+              onclick="zerar()"
+            />
+          </nav>
+        </div>
+      </div>
+    </main>
+    <script type="text/javascript">
+      var relogio = document.getElementById('tela')
 
-		}
+      var mseg = 0,
+        seg = 0,
+        min = 0,
+        horas = 0,
+        dias = 0
 
-		.botao{
-			width: 200px;
-			height: 80px;
-			font-size: 20px;
-			font-family: fantasy;
-		}
-	</style>
-</head>
-<body>
-	<div id="pagina">
-		<div id="main">
-			<span id="tela"> minha tela
-				
-			</span>
-			<br>
-			<nav>
-			<input class="botao" type="button" id="botao" value="Play" onclick="playPause()">
-			<input class="botao"  type="button" id="botaoZerar" value="Zerar Cronômetro" onclick="zerar()" >
-			</nav>
-		</div>
+      var tempo =
+        dias +
+        ' dia(s), ' +
+        strNum(horas) +
+        ':' +
+        strNum(min) +
+        ':' +
+        strNum(seg) +
+        ':' +
+        strNum(mseg)
+      relogio.textContent = tempo
+      var play = false
 
+      function zerar() {
+        mseg = 0
+        seg = 0
+        min = 0
+        horas = 0
+        dias = 0
+        tempo =
+          dias +
+          ' dia(s), ' +
+          strNum(horas) +
+          ':' +
+          strNum(min) +
+          ':' +
+          strNum(seg) +
+          ':' +
+          strNum(mseg)
+        relogio.textContent = tempo
+      }
 
-	</div>
-	<script type="text/javascript">
-		var relogio = document.getElementById('tela')
-		
-		var mseg = 0, seg = 0, min = 0, horas = 0, dias = 0
-		
-		
-		var tempo = (dias +' dia(s), '+ strNum(horas) + ':'+ strNum(min) +':'+ strNum(seg)+':'+strNum(mseg))
-		relogio.textContent = tempo
-		var play = false
+      function strNum(num) {
+        if (num < 10) {
+          return '0' + num.toString()
+        } else {
+          return num
+        }
+      }
 
+      function playPause() {
+        if (play) {
+          play = false
+          document.getElementById('botaoZerar').disabled = false
+          document.getElementById('botao').value = 'Play'
+        } else {
+          play = true
+          document.getElementById('botaoZerar').disabled = true
+          document.getElementById('botao').value = 'Stop'
+        }
+      }
 
-		function zerar(){
-			mseg = 0;
-			seg = 0;
-			min = 0; 
-			horas = 0; 
-			dias = 0;
-			tempo = (dias +' dia(s), '+ strNum(horas) + ':'+ strNum(min) +':'+ strNum(seg)+':'+strNum(mseg))
-			relogio.textContent = tempo
-		}
+      function rodarTempo() {
+        if (play) {
+          mseg++
+          if (mseg == 100) {
+            seg++
+            mseg = 0
+          }
 
-		function strNum(num){
-			if (num <10) {
-					return "0"+num.toString()
-			}else {
-				return num
-			}
-		}
+          if (seg == 60) {
+            min++
+            seg = 0
+          }
+          if (min == 60) {
+            horas++
+            min = 0
+          }
+          if (horas == 24) {
+            dias++
+            horas = 0
+          }
 
-		function playPause(){
-			if (play){
-				play = false
-				document.getElementById('botaoZerar').disabled = false
-				document.getElementById('botao').value = 'Play'
-			}else{play = true;
-				document.getElementById('botaoZerar').disabled = true
-				document.getElementById('botao').value = 'Stop'
+          tempo =
+            dias +
+            ' dia(s), ' +
+            strNum(horas) +
+            ':' +
+            strNum(min) +
+            ':' +
+            strNum(seg) +
+            ':' +
+            strNum(mseg)
+          relogio.textContent = tempo
+        }
+      }
 
-			}
-		}
-		
-
-		function rodarTempo(){
-			
-
-			if(play){
-				mseg++
-				if (mseg==100) {
-					seg++
-					mseg = 0
-				}
-				
-				if(seg == 60){
-					min++
-					seg = 0
-				}
-				if (min == 60){
-					horas++
-					min = 0
-				}
-				if (horas == 24){
-					dias++
-					horas = 0
-				}
-
-
-				tempo = (dias +' dia(s), '+ strNum(horas) + ':'+ strNum(min) +':'+ strNum(seg)+':'+strNum(mseg))
-				relogio.textContent = tempo
-			}
-		}
-
-		
-
-
-
-		setInterval(rodarTempo, 10) ;
-
-
-	</script>
-</body>
+      setInterval(rodarTempo, 10)
+    </script>
+  </body>
 </html>
